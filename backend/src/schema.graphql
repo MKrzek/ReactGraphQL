@@ -1,0 +1,16 @@
+# imports types and prisma grapghql if it is added there
+# import * from "./generated/prisma.graphql"
+
+type Mutation {
+  createItem(
+    title: String
+    description: String
+    image: String
+    largeImage: String
+    price: Int
+  ): Item!
+}
+
+type Query {
+  items: [Item]!
+}
