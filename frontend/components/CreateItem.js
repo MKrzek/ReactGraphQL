@@ -89,6 +89,7 @@ mutation CREATE_ITEM_MUTATION(
                     }
                     required
                 />
+                {this.state.image && <img width="200" src={this.state.image} alt="productImage"/>}
                 </label>
                 <label htmlFor="title">
                     Title
