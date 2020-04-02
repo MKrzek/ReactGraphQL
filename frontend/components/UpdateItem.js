@@ -18,11 +18,13 @@ query SINGLE_ITEM_QUERY($id: ID!){
 
 const UPDATE_ITEM_MUTATION = gql `
 mutation UPDATE_ITEM_MUTATION(
-    $title: String!
-    $description: String!
-    $price: Int!
+    $id: ID!,
+    $title: String
+    $description: String
+    $price: Int
     ){
     updateItem(
+        id: $id,
         title:$title
         description:$description
         price:$price
@@ -47,9 +49,15 @@ class UpdateItem extends Component {
             : value
         this.setState({[name]: val})
     }
-    updateItem=(e, updateItemMutation)=>{
-        e.preventDefault
+    updateItem = async(e, updateItemMutation) => {
+        e.preventDefault()
         console.log('uppppp', this.state)
+        const res = await updateItemMutation({
+            variables:{
+                id: this.props.id,
+                ...this.state
+            }
+        })
     }
 
     render() {
@@ -57,7 +65,7 @@ class UpdateItem extends Component {
             <Query query={SINGLE_ITEM_QUERY} variables={{id: this.props.id}}>
                 {({data, loading})=>{
                     if(loading) return <p>Loading...</p>
-                    if(!data.item) return <p>No Item Found</p>
+                if(!data.item) return <p>No Item Found for item {this.props.id}</p>
                     return (
                <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
                 {(updateItem, {loading, error, called}) => (
