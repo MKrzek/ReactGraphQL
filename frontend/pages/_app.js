@@ -18,7 +18,6 @@ class MyApp extends App {
       <Container>
         <ApolloProvider client={apollo}>
           <Page>
-            <p>I am on very page</p>
             <Component {...pageProps} />
           </Page>
         </ApolloProvider>
