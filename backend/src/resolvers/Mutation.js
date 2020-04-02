@@ -8,6 +8,14 @@ const Mutations = {
     );
     console.log("item", item);
     return item;
+  },
+  async updateItem(parent, args, ctx, info){
+    const  updates = {...args}
+    delete updates.id
+    return await ctx.db.mutation.updateItem({
+        data: updates,
+        where:{id: args.id}
+    }, info)
   }
 };
 
