@@ -1,9 +1,10 @@
-import React from "react";
-import Router from "next/router";
-import NProgress from "nprogress";
-import Link from "next/link";
-import Nav from "./Nav";
-import styled from "styled-components";
+import React from 'react';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import Link from 'next/link';
+import styled from 'styled-components';
+import Nav from './Nav';
+
 Router.onRouteChangeStart = () => {
   NProgress.start();
 };
@@ -51,23 +52,21 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = () => {
-  return (
-    <StyledHeader>
-      <div className="bar">
-        <Logo>
-          <Link href="/">
-            <a href="">Sick Fits</a>
-          </Link>
-        </Logo>
-        <Nav />
-      </div>
-      <div className="sub-bar">
-        <p>Search</p>
-      </div>
-      <div>Cart</div>
-    </StyledHeader>
-  );
-};
+const Header = () => (
+  <StyledHeader>
+    <div className="bar">
+      <Logo>
+        <Link href="/">
+          <a href="">Sick Fits</a>
+        </Link>
+      </Logo>
+      <Nav />
+    </div>
+    <div className="sub-bar">
+      <p>Search</p>
+    </div>
+    <div>Cart</div>
+  </StyledHeader>
+);
 
 export default Header;

@@ -1,6 +1,6 @@
-import UpdateItem from "../components/UpdateItem"
-const Update = ({query}) => {
-    console.log('query', query)
-    return <UpdateItem id={query.id}/>
-};
+/* eslint-disable react/prop-types */
+import UpdateItem from '../components/UpdateItem';
+
+const Update = ({ query }) => <UpdateItem id={query.id} />;
+
 export default Update;
