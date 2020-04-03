@@ -5,10 +5,11 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Item from './Item';
 import Pagination from './Pagination';
+import { perPage } from '../config';
 
 export const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY {
-    items {
+  query ALL_ITEMS_QUERY($skip: Int = 0) {
+    items(skip: $skip) {
       id
       title
       price
@@ -35,10 +36,16 @@ export default class Items extends Component {
     return (
       <Center>
         <Pagination page={page} />
-        <Query query={ALL_ITEMS_QUERY}>
+        <Query
+          query={ALL_ITEMS_QUERY}
+          fetchPolicy="network-only"
+          variables={{ skip: page * perPage - perPage }}
+        >
           {({ data, loading, error }) => {
             if (loading) return <div>Loading...</div>;
             if (error) return <div>{error.message}</div>;
+
+            console.log('datata', data);
 
             return (
               <ItemList>
