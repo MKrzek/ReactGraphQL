@@ -6,7 +6,6 @@ const Home = props => {
   const {
     query: { page },
   } = props;
-  console.log('INNNNNNNN', props);
   return (
     <div>
       <Items page={parseFloat(page) || 1} />
