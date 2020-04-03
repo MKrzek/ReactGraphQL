@@ -40,6 +40,7 @@ export default class SignUp extends Component {
             onSubmit={async e => {
               e.preventDefault();
               await signup();
+              this.setState({ email: '', name: '', password: '' });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>
