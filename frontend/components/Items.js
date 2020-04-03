@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Item from './Item';
+import Pagination from './Pagination';
 
 export const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY {
@@ -29,8 +31,10 @@ const ItemList = styled.div`
 
 export default class Items extends Component {
   render() {
+    const { page } = this.props;
     return (
       <Center>
+        <Pagination page={page} />
         <Query query={ALL_ITEMS_QUERY}>
           {({ data, loading, error }) => {
             if (loading) return <div>Loading...</div>;
@@ -45,6 +49,7 @@ export default class Items extends Component {
             );
           }}
         </Query>
+        <Pagination page={page} />
       </Center>
     );
   }
