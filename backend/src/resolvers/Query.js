@@ -7,7 +7,6 @@ const Query = {
     if(!ctx.request.userId){
       return null
     }
-    console.log('INFO', info)
     return ctx.db.query.user({
       where: {id: ctx.request.userId}
     }, info)
