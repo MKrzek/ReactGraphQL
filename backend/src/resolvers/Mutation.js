@@ -2,6 +2,9 @@ const bcrypt= require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const {randomBytes} = require ('crypto')
 const {promisify} =require('util')
+const {transport, makeANiceEmail} = require('../../mail')
+
+
 const Mutations = {
   async createItem(parent, args, ctx, info) {
     const item = await ctx.db.mutation.createItem(
@@ -77,12 +80,22 @@ const Mutations = {
     if(!user){
     throw new Error (`No such user fount for the email ${args.email}`)
     }
-    const resetToken= (await promisify(randomBytes)(17)).toString('hex');
+    const resetToken = (await promisify(randomBytes)(17)).toString('hex');
     const resetTokenExpiry = Date.now() + 3600000;
      await ctx.db.mutation.updateUser({
        where: {email: args.email},
        data: {resetToken, resetTokenExpiry}
     })
+
+  const mailResponse = await transport.sendMail({
+     from: 'mkrzek@googlemail.com',
+     to: user.email,
+     subject: 'Your password reset token',
+     html: makeANiceEmail(`Your password reset token is
+     here \n\n<a
+     href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click here to reset</a>`)
+
+  })
     return {message: "Thanks!"}
   },
   async resetPassword(parent, args, ctx, info){
