@@ -62,8 +62,11 @@ const Mutations = {
       maxAge: 1000*60*60*24
     })
     return user
-
-
+  },
+  async signout(parent, args, ctx, info){
+  console.log('CCCCCCCCCCC', ctx.response)
+   await ctx.response.clearCookie('token')
+   return{message: "You have been signed-out"}
   }
 };
 
