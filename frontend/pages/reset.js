@@ -6,10 +6,11 @@ const ResetPage = props => {
   const {
     query: { resetToken },
   } = props;
+
   return (
     <div>
-      <p>Reset Your password {resetToken}</p>
-      <Reset restToken={resetToken} />
+      <p>Reset Your password</p>
+      <Reset resetToken={resetToken} />
     </div>
   );
 };

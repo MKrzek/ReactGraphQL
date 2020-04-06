@@ -24,7 +24,7 @@ const RESET_MUTATION = gql`
   }
 `;
 
-export default class SignIn extends Component {
+export default class Reset extends Component {
   static propTypes = {
     resetToken: PropTypes.string.isRequired,
   };
