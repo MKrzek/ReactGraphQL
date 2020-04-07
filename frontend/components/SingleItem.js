@@ -52,7 +52,7 @@ export default class SingleItem extends Component {
           return (
             <SingleItemStyles>
               <Head>
-                <title>Sick Fits| {title}</title>
+                <title>Market Place| {title}</title>
               </Head>
               <img src={largeImage} alt={title} />
               <div className="details">
