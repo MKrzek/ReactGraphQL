@@ -1,7 +1,7 @@
 {
   "name": "sick-fits-frontend",
   "version": "1.0.0",
-  "description": "Sick Fits! An example React, GraphQL, Next and Apollo",
+  "description": "An example React, GraphQL, Next and Apollo",
   "main": "index.js",
   "scripts": {
     "dev": "next -p 7777",
@@ -10,7 +10,7 @@
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
     "heroku-postbuild": "next build",
-    "lint":"eslint",
+    "lint": "eslint",
     "lint:fix": "eslint . --fix"
   },
   "author": "",
