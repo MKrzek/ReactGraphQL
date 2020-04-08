@@ -1,4 +1,9 @@
 import CreateItem from '../components/CreateItem';
+import PleaseSignIn from '../components/PleaseSignIn';
 
-const Sell = () => <CreateItem />;
+const Sell = () => (
+  <PleaseSignIn>
+    <CreateItem />
+  </PleaseSignIn>
+);
 export default Sell;
