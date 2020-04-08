@@ -1,7 +1,7 @@
-const bcrypt= require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const {randomBytes} = require ('crypto')
-const {promisify} =require('util')
+const {promisify} = require('util')
 const {transport, makeANiceEmail} = require('../../mail')
 
 
@@ -48,7 +48,8 @@ const Mutations = {
     data: {
       ...args,
       password,
-      permissions:{set: ["USER"]}
+      permissions:{set: ['USER']
+      }
     }
     },
     info
