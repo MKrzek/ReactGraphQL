@@ -88,14 +88,12 @@ class UserPermissions extends React.Component {
 
     if (checkbox.checked) {
       updatedPermissions.push(checkbox.value);
-      this.setState({ permissions: updatedPermissions });
-      updatePermissions();
+      this.setState({ permissions: updatedPermissions }, updatePermissions);
     } else {
       updatedPermissions = updatedPermissions.filter(
         permission => permission !== checkbox.value
       );
-      this.setState({ permissions: updatedPermissions });
-      updatePermissions();
+      this.setState({ permissions: updatedPermissions }, updatePermissions);
     }
   };
 
