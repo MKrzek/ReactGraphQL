@@ -45,8 +45,6 @@ export default class Items extends Component {
             if (loading) return <div>Loading...</div>;
             if (error) return <div>{error.message}</div>;
 
-            console.log('datata', data);
-
             return (
               <ItemList>
                 {data.items.map(item => (
