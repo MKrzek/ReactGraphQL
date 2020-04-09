@@ -85,6 +85,7 @@ class UserPermissions extends React.Component {
   handleChange = e => {
     const checkbox = e.target;
     let updatedPermissions = [...this.state.permissions];
+
     if (checkbox.checked) {
       updatedPermissions.push(checkbox.value);
       this.setState({ permissions: updatedPermissions });
@@ -92,6 +93,7 @@ class UserPermissions extends React.Component {
       updatedPermissions = updatedPermissions.filter(
         permission => permission !== checkbox.value
       );
+      this.setState({ permissions: updatedPermissions });
     }
   };
 
@@ -137,7 +139,7 @@ class UserPermissions extends React.Component {
                   type="button"
                   onClick={updatePermissions}
                 >
-                  Update
+                  Updat{loading ? 'ing' : 'e'}
                 </SickButton>
               </td>
             </tr>
