@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const {randomBytes} = require ('crypto')
 const {promisify} = require('util')
 const {transport, makeANiceEmail} = require('../../mail')
+const {hasPermission} = require( "../utils")
 
 
 const Mutations = {
@@ -59,9 +60,9 @@ const Mutations = {
       httpOnly: true,
       maxAge: 1000*60*60*24
     })
-    //return user to browser
     return user
   },
+
   async signin(parent, {email, password}, ctx, info){
     const user = await ctx.db.query.user({where:{email}});
     if(!user){
@@ -80,7 +81,6 @@ const Mutations = {
   },
 
   async signout(parent, args, ctx, info){
-  console.log('CCCCCCCCCCC', ctx.response)
    await ctx.response.clearCookie('token')
    return{message: "You have been signed-out"}
   },
@@ -97,13 +97,13 @@ const Mutations = {
        data: {resetToken, resetTokenExpiry}
     })
 
-  const mailResponse = await transport.sendMail({
-     from: 'mkrzek@googlemail.com',
-     to: user.email,
-     subject: 'Your password reset token',
-     html: makeANiceEmail(`Your password reset token is
-     here \n\n<a
-     href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click here to reset</a>`)
+    const mailResponse = await transport.sendMail({
+      from: 'mkrzek@googlemail.com',
+      to: user.email,
+      subject: 'Your password reset token',
+      html: makeANiceEmail(`Your password reset token is
+      here \n\n<a
+      href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click here to reset</a>`)
 
   })
     return {message: "Thanks!"}
@@ -135,6 +135,30 @@ const Mutations = {
     })
     return updatedUser
 
+  },
+  async updatePermissions(parent, args, ctx, info){
+
+    if(!ctx.request.userId){
+    throw new Error('You must be logged in')
+    }
+
+// const currentUser = await ctx
+//   .db
+//   .query
+//   .user({
+//     where: {
+//       id: ctx.request.userId
+//     }
+//   }, '{id, permissions, email, name}');
+
+    hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE'])
+
+    return  ctx.db.mutation.updateUser({
+    data:{
+      permissions:{set: args.permissions}
+    },
+     where: {id: args.userId }
+    }, info)
   }
 
 };
