@@ -4,7 +4,6 @@ import { ServerStyleSheet } from 'styled-components';
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
-    console.log('sheeys', sheet);
     const page = renderPage(App => props =>
       sheet.collectStyles(<App {...props} />)
     );
