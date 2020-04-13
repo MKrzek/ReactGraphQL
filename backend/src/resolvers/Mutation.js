@@ -173,22 +173,23 @@ const Mutations = {
       throw new Error('You must be signed in to add items to cart')
     }
     const [existingCartItem]= await ctx.db.query.cartItems({
-      user:{id: userId},
+      where:{user:{id: userId},
       item: {id: args.id}
+      }
     })
     if(existingCartItem){
      console.log('Item in cart already')
      return ctx.db.mutation.updateCartItem({
-      where: {id: existingCartItem},
+      where: {id: existingCartItem.id},
       data: {quantity: existingCartItem.quantity + 1}
-     })
+     }, info)
     }
     return ctx.db.mutation.createCartItem({
         data:{
         user:{connect: {id: userId}},
-        data: {connect:{id: args.id}}
+        item: {connect:{id: args.id}}
         }
-    })
+    }, info)
   }
 
 
