@@ -33,7 +33,6 @@ class RemoveFromCart extends Component {
     const data = cache.readQuery({ query: CURRENT_USER_QUERY });
     const cartItemId = payload.data.removeFromCart.id;
     data.me.cart = data.me.cart.filter(cartItem => cartItem.id !== cartItemId);
-    console.log('SSSSSS', data.me.cart);
     cache.writeQuery({ query: CURRENT_USER_QUERY, data });
   };
 
