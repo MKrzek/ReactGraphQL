@@ -71,7 +71,9 @@ const Mutations = {
   },
 
   async signin(parent, {email, password}, ctx, info){
+
     const user = await ctx.db.query.user({where:{email}});
+
     if(!user){
       throw new Error(`No such user found for email ${email}`)
     }
@@ -95,7 +97,7 @@ const Mutations = {
   async requestReset(parent, args, ctx, info){
     const user = await ctx.db.query.user({where: {email: args.email }})
     if(!user){
-    throw new Error (`No such user fount for the email ${args.email}`)
+    throw new Error (`No such user found for the email ${args.email}`)
     }
     const resetToken = (await promisify(randomBytes)(17)).toString('hex');
     const resetTokenExpiry = Date.now() + 3600000;
@@ -190,7 +192,23 @@ const Mutations = {
         item: {connect:{id: args.id}}
         }
     }, info)
-  }
+  },
+   async removeFromCart(parent, args, ctx, info){
+    const userId = ctx.request.userId
+    const itemToRemove = await ctx.db.query.cartItem({where: {id: args.id}}, `{id, user { id}}`)
+
+    console.log('IIII-item to remove', itemToRemove)
+    if(!itemToRemove) throw new Error('No cart item found')
+    // const userHasItem = await ctx.db.query.user({where: {id: userId}}, `{cart {id, quantity}}`)
+
+    if(itemToRemove.user.id !== userId)
+        throw new Error("This is not your cart so you can't remove the item from this cart")
+     return  ctx.db.mutation.deleteCartItem({where:{id: args.id}}, info)
+
+
+
+
+   }
 
 
 };
