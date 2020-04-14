@@ -38,7 +38,9 @@ const Cart = () => (
                     </CloseButton>
                     <Supreme>{me.name}'s cart</Supreme>
                     <p>
-                      You have {me.cart.length} item
+                      You have{' '}
+                      {me.cart.reduce((prev, curr) => prev + curr.quantity, 0)}{' '}
+                      item
                       {me.cart.length > 1 && 's'} in you cart
                     </p>
                   </header>
