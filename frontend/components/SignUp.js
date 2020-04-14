@@ -15,7 +15,6 @@ const SIGNUP_MUTATION = gql`
       id
       email
       name
-      password
     }
   }
 `;
@@ -35,6 +34,7 @@ export default class SignUp extends Component {
 
   render() {
     const { name, email, password } = this.state;
+
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
