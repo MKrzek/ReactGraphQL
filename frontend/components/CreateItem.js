@@ -30,7 +30,6 @@ class CreateItem extends Component {
     title: 'sssss',
     description: 'sssss',
     image: 'xxx',
-    largeImage: 'xxxx',
     price: 20,
   };
 
