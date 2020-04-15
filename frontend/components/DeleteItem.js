@@ -20,18 +20,24 @@ const DELETE_ITEM_MUTATION = gql`
 export default class DeleteItem extends Component {
   update=(cache, payload)=>{
     // update cache to match the server
-    const data= cache.readQuery({query:ALL_ITEMS_QUERY})
-    data.items= data.items.filter(item=> item.id !==payload.data.deleteItem.id)
-    cache.writeQuery({query:ALL_ITEMS_QUERY, data})
+    const data = cache.readQuery({query:ALL_ITEMS_QUERY})
+    console.log('data-deleting', data, payload)
+    data.items = data.items.filter(item =>
+
+     item.id !== payload.data.deleteItem.id
+    )
+     cache.writeQuery({query:ALL_ITEMS_QUERY, data})
   }
+
 
   render() {
     const { children, id } = this.props;
+
     return (
       <Mutation
       mutation={DELETE_ITEM_MUTATION}
       variables={{id}}
-      update={this.update}
+       update={this.update}
       >
         {(deleteItem, { error }) => (
           <button
