@@ -38,7 +38,6 @@ class RemoveFromCart extends Component {
 
   render() {
     const { id } = this.props;
-    console.log('IDDDD-item', id);
     return (
       <Mutation
         mutation={REMOVE_FROM_CART_MUTATION}
@@ -46,7 +45,7 @@ class RemoveFromCart extends Component {
         update={this.update}
         optimisticResponse={{
           __typename: 'Mutation',
-          removeFromCart: { __typename: 'Cartitem', id },
+          removeFromCart: { __typename: 'CartItem', id },
         }}
       >
         {(removeFromCart, { loading, error }) => (
