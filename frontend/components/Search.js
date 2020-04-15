@@ -23,6 +23,16 @@ const SEARCH_ITEMS_QUERY = gql`
   }
 `;
 
+function routeToItem(item) {
+  console.log('iiii', item);
+  Router.push({
+    pathname: '/item',
+    query: {
+      id: item.id,
+    },
+  });
+}
+
 export default class AutoComplete extends Component {
   state = {
     items: [],
@@ -35,7 +45,6 @@ export default class AutoComplete extends Component {
       query: SEARCH_ITEMS_QUERY,
       variables: { searchTerm: e.target.value },
     });
-    console.log('rrrrr', res);
     this.setState({
       items: res.data.items,
       loading: false,
@@ -46,28 +55,54 @@ export default class AutoComplete extends Component {
     const { items, loading } = this.state;
     return (
       <SearchStyles>
-        <div>
-          <ApolloConsumer>
-            {client => (
-              <input
-                type="search"
-                onChange={e => {
-                  console.log('cccccc', client);
-                  e.persist();
-                  this.onChange(e, client);
-                }}
-              />
-            )}
-          </ApolloConsumer>
-          <DropDown>
-            {items.map(item => (
-              <DropDownItem key={item.id}>
-                <img width="50" src={item.image} alt={item.title} />
-                {item.title}
-              </DropDownItem>
-            ))}
-          </DropDown>
-        </div>
+        <Downshift
+          onChange={routeToItem}
+          itemToString={item => (item === null ? '' : item.title)}
+        >
+          {({
+            getInputProps,
+            getItemProps,
+            isOpen,
+            inputValue,
+            highlightedIndex,
+          }) => (
+            <div>
+              <ApolloConsumer>
+                {client => (
+                  <input
+                    {...getInputProps({
+                      type: 'search',
+                      placeholder: 'Search For an Item',
+                      id: 'search',
+                      className: loading ? 'loading' : '',
+                      onChange: e => {
+                        e.persist();
+                        this.onChange(e, client);
+                      },
+                    })}
+                  />
+                )}
+              </ApolloConsumer>
+              {isOpen && (
+                <DropDown>
+                  {items.map((item, index) => (
+                    <DropDownItem
+                      highlighted={index === highlightedIndex}
+                      key={item.id}
+                      {...getItemProps({ item })}
+                    >
+                      <img width="50" src={item.image} alt={item.title} />
+                      {item.title}
+                    </DropDownItem>
+                  ))}
+                  {!items.length && !loading && (
+                    <DropDownItem>Nothing Found {inputValue}</DropDownItem>
+                  )}
+                </DropDown>
+              )}
+            </div>
+          )}
+        </Downshift>
       </SearchStyles>
     );
   }
