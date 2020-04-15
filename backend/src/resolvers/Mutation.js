@@ -38,14 +38,19 @@ const Mutations = {
   async deleteItem(parent, args, ctx, info ){
 
     const where = {id: args.id}
-    const item = await ctx.db.query.item({where}, `{id, title, user{id}}`)
+    const item = await ctx.db.query.item({where}, `{id, title, user {id}}`)
+
+     const cartItems= await ctx.db.query.cartItems({}, `{id, item{id}}`)
+     console.log('cartItemxXXXXXXXX', cartItems)
+
 
     const ownsItem = item.user.id === ctx.request.userId
     const hasPermission = ctx.request.user.permissions.some(permission=>['ADMIN', 'ITEMDELETE'].includes(permission))
      if(!ownsItem || !hasPermission) {
      throw new Error("You don't have permission to delete this item" )
      }
-    return ctx.db.mutation.deleteItem({ where}, info)
+
+     return ctx.db.mutation.deleteItem({ where}, info)
 
   },
 
@@ -194,23 +199,17 @@ const Mutations = {
     }, info)
   },
    async removeFromCart(parent, args, ctx, info){
+
     const userId = ctx.request.userId
     const itemToRemove = await ctx.db.query.cartItem({where: {id: args.id}}, `{id, user { id}}`)
 
-    console.log('IIII-item to remove', itemToRemove)
     if(!itemToRemove) throw new Error('No cart item found')
     // const userHasItem = await ctx.db.query.user({where: {id: userId}}, `{cart {id, quantity}}`)
 
     if(itemToRemove.user.id !== userId)
         throw new Error("This is not your cart so you can't remove the item from this cart")
      return  ctx.db.mutation.deleteCartItem({where:{id: args.id}}, info)
-
-
-
-
    }
-
-
 };
 
 module.exports = Mutations;
