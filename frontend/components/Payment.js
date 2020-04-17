@@ -25,12 +25,13 @@ const CREATE_ORDER_MUTATION = gql`
 `;
 
 export default class Payment extends Component {
-  onToken = (res, createOrder) => {
-    createOrder({
+  onToken = async (res, createOrder) => {
+    const order = await createOrder({
       variables: {
         token: res.id,
       },
     }).catch(err => alert(err.message));
+    console.log('order', order);
   };
 
   render() {
@@ -46,7 +47,9 @@ export default class Payment extends Component {
               <StripeCheckout
                 name="Market Place"
                 description={`Order of ${totalItems(me.cart)} items`}
-                image={me.cart[0].item && me.cart[0].item.image}
+                image={
+                  me.cart.length && me.cart[0].item && me.cart[0].item.image
+                }
                 amount={calcTotalPrice(me.cart)}
                 stripeKey="pk_test_HPudnXijOi9poQQ2LCdW9gsh"
                 currency="GBP"
