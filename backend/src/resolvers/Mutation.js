@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken')
 const {randomBytes} = require ('crypto')
 const {promisify} = require('util')
 const {transport, makeANiceEmail} = require('../../mail')
-const {hasPermission} = require( "../utils")
+const {hasPermission} = require( '../utils')
+const stripe = require('../stripe')
 
 
 const Mutations = {
@@ -209,6 +210,35 @@ const Mutations = {
     if(itemToRemove.user.id !== userId)
         throw new Error("This is not your cart so you can't remove the item from this cart")
      return  ctx.db.mutation.deleteCartItem({where:{id: args.id}}, info)
+   },
+
+   async createOrder(parent, args, ctx, info){
+     const currentUser = ctx.request.userId
+     if (!currentUser) throw new Error('Please sign in before continuing')
+     const user = await ctx.db.query.user({where:{id: currentUser}},
+     `{id
+       name
+       email
+       cart{
+         id
+         quantity
+         item{
+          title
+          price
+          id
+          description
+          image
+      }}}`
+     )
+
+     const amount = user.cart.reduce((prev, curr)=>prev + curr.item.price * curr.quantity, 0)
+     console.log('aaaaaaa', amount)
+     const charge = await stripe.charges.create({
+         amount,
+         currency: 'GBP',
+         source: args.token
+     })
+
    }
 };
 
