@@ -28,7 +28,7 @@ const CREATE_ORDER_MUTATION = gql`
 
 export default class Payment extends Component {
   onToken = async (res, createOrder) => {
-     NProgress.start();
+    NProgress.start();
     const order = await createOrder({
       variables: {
         token: res.id,
