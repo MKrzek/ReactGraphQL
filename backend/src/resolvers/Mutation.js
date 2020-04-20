@@ -42,7 +42,7 @@ const Mutations = {
     const item = await ctx.db.query.item({where}, `{id, title, user {id}}`)
 
      const cartItems= await ctx.db.query.cartItems({}, `{id, item{id}}`)
-     console.log('cartItemxXXXXXXXX', cartItems)
+
 
 
     const ownsItem = item.user.id === ctx.request.userId
