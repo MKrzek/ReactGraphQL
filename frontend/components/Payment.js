@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import StripeCheckout from 'react-stripe-checkout';
@@ -26,12 +28,17 @@ const CREATE_ORDER_MUTATION = gql`
 
 export default class Payment extends Component {
   onToken = async (res, createOrder) => {
+     NProgress.start();
     const order = await createOrder({
       variables: {
         token: res.id,
       },
     }).catch(err => alert(err.message));
-    console.log('order', order);
+    console.log('orrrr', order);
+    Router.push({
+      pathname: '/order',
+      query: { id: order.data.createOrder.id },
+    });
   };
 
   render() {
@@ -43,7 +50,7 @@ export default class Payment extends Component {
             refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             mutation={CREATE_ORDER_MUTATION}
           >
-            {(createOrder, { loading, error }) => (
+            {(createOrder, { error }) => (
               <StripeCheckout
                 name="Market Place"
                 description={`Order of ${totalItems(me.cart)} items`}
