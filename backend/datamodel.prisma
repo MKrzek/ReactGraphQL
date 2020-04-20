@@ -48,8 +48,10 @@ type OrderItem {
 
 type Order{
  id: ID! @id
- items:[OrderItem!]!
+ items: [OrderItem!]!
  total: Int!
  user: User!
  charge: String!
+ createdAt: DateTime @createdAt
+ updatedat: DateTime
 }
