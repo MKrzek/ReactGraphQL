@@ -233,7 +233,6 @@ const Mutations = {
      )
 
      const amount = user.cart.reduce((prev, curr)=>prev + curr.item.price * curr.quantity, 0)
-     console.log('aaaaaaa', amount)
      const charge = await stripe.charges.create({
          amount,
          currency: 'GBP',
