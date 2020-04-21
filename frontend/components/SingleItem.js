@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Head from 'next/head';
 import Error from './ErrorMessage';
 
-const SingleItemStyles = styled.div`
+export const SingleItemStyles = styled.div`
   max-width: 1200px;
   margin: 2rem auto;
   box-shadow: ${props => props.theme.bs};
@@ -25,7 +25,7 @@ const SingleItemStyles = styled.div`
   }
 `;
 
-const SINGLE_ITEM_QUERY = gql`
+export const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
     item(where: { id: $id }) {
       id
@@ -43,12 +43,12 @@ export default class SingleItem extends Component {
     return (
       <Query query={SINGLE_ITEM_QUERY} variables={{ id }}>
         {({ loading, error, data }) => {
-          const {
-            item: { largeImage, title, description },
-          } = data;
           if (error) return <Error error={error} />;
           if (loading) return <p>Loading...</p>;
           if (!data.item) return <p>No Item Found for {id}</p>;
+          const {
+            item: { largeImage, title, description },
+          } = data;
           return (
             <SingleItemStyles>
               <Head>
