@@ -44,7 +44,6 @@ describe('<RequestRest', () => {
     wrapper.find('form').simulate('submit');
     await wait();
     wrapper.update();
-    console.log('ressset', wrapper.debug());
     expect(wrapper.find('p').text()).toContain('Success!');
   });
 });

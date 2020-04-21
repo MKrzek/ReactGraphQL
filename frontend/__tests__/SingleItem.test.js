@@ -23,11 +23,9 @@ describe('<SingleItem/>', () => {
         <SingleItem id="123" />
       </MockedProvider>
     );
-    console.log('WWW', wrapper.debug());
     expect(wrapper.text()).toContain('Loading...');
     await wait();
     wrapper.update();
-    console.log('AFTER WAIT', wrapper.debug());
     expect(toJSON(wrapper.find('h2'))).toMatchSnapshot();
     expect(toJSON(wrapper.find('img'))).toMatchSnapshot();
     expect(toJSON(wrapper.find('p'))).toMatchSnapshot();
@@ -54,9 +52,7 @@ describe('<SingleItem/>', () => {
     );
     await wait();
     wrapper.update();
-    console.log('wrapper', wrapper.debug());
     const item = wrapper.find('[data-test="graphql-error"]');
-    console.log('item', item);
     expect(item.text()).toContain('Items Not Found!');
     expect(toJSON(item)).toMatchSnapshot();
   });
