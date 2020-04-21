@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Item/> renders and matches the snapshot 1`] = `"£50.34"`;
+
+exports[`<Item/> renders and matches the snapshot 2`] = `
+<ItemStyles__Item>
+  <img
+    alt="hi"
+    src="ddd.png"
+  />
+  <Title>
+    <Link
+      href={
+        Object {
+          "pathname": "/item",
+          "query": Object {
+            "id": "wwww",
+          },
+        }
+      }
+    >
+      <a>
+        hi
+      </a>
+    </Link>
+  </Title>
+  <PriceTag>
+    £40,030.09
+  </PriceTag>
+  <p>
+    sjsjssj
+  </p>
+  <div
+    className="buttonList"
+  >
+    <Link
+      href={
+        Object {
+          "pathname": "update",
+          "query": Object {
+            "id": "wwww",
+          },
+        }
+      }
+    >
+      <a>
+        Edit
+      </a>
+    </Link>
+    <AddToCart
+      id="wwww"
+    />
+    <DeleteItem
+      id="wwww"
+    >
+      Delete This Item
+    </DeleteItem>
+  </div>
+</ItemStyles__Item>
+`;
