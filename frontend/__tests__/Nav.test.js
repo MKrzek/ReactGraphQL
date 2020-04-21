@@ -61,7 +61,6 @@ describe('<Nav/>', () => {
 
     const nav = wrapper.find('ul[data-test="nav"]');
 
-    // expect(toJSON(nav)).toMatchSnapshot();
   });
   it('renders full nav when signed-in', async () => {
     const wrapper = mount(
@@ -76,7 +75,7 @@ describe('<Nav/>', () => {
 
     expect(nav.children().length).toBe(6);
     expect(nav.text()).toContain('Sign out');
-    // expect(toJSON(nav)).toMatchSnapshot();
+
   });
   it('renders the number of items in the cart', async () => {
     const wrapper = mount(
@@ -87,7 +86,7 @@ describe('<Nav/>', () => {
     await wait();
     wrapper.update();
     const nav = wrapper.find('ul[data-test="nav"]');
-    console.log(nav.debug());
+
     const count = nav.find('div.count');
     expect(toJSON(count)).toMatchSnapshot();
   });

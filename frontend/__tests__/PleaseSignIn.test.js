@@ -35,7 +35,7 @@ describe('please signin', () => {
     await wait();
     wrapper.update();
     expect(wrapper.text()).toContain('Please sign in');
-    console.log('SIGN_IN', wrapper.debug());
+
     expect(wrapper.find('SignIn').exists()).toBe(true);
   });
   it('renders the child component when the user is signed-in', async () => {
