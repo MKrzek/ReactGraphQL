@@ -26,7 +26,7 @@ const Pagination = props => (
       const { count } = data.itemsConnection.aggregate;
       const pages = Math.ceil(count / perPage);
       return (
-        <PaginationStyles>
+        <PaginationStyles data-test="pagination">
           <Head>
             <title>
               Market Place! Page {props.page} of {pages}
@@ -54,7 +54,7 @@ const Pagination = props => (
               query: { page: props.page + 1 },
             }}
           >
-            <a className="prev" aria-disabled={props.page >= pages}>
+            <a className="next" aria-disabled={props.page >= pages}>
               Next
             </a>
           </Link>
