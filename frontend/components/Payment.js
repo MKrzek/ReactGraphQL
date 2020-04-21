@@ -12,7 +12,7 @@ function totalItems(cart) {
   return cart.reduce((prev, curr) => prev + curr.quantity, 0);
 }
 
-const CREATE_ORDER_MUTATION = gql`
+export const CREATE_ORDER_MUTATION = gql`
   mutation CREATE_ORDER_MUTATION($token: String) {
     createOrder(token: $token) {
       id
@@ -34,7 +34,6 @@ export default class Payment extends Component {
         token: res.id,
       },
     }).catch(err => alert(err.message));
-    console.log('orrrr', order);
     Router.push({
       pathname: '/order',
       query: { id: order.data.createOrder.id },
