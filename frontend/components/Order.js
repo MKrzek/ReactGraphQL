@@ -8,7 +8,7 @@ import Error from './ErrorMessage';
 import OrderStyles from './styles/OrderStyles';
 import formatMoney from '../lib/formatMoney';
 
-const SINGLE_ORDER_QUERY = gql`
+export const SINGLE_ORDER_QUERY = gql`
   query SINGLE_ORDER_QUERY($id: ID!) {
     order(id: $id) {
       id
@@ -37,16 +37,14 @@ export default class Order extends Component {
 
   render() {
     const { id } = this.props;
-    console.log('idddd', id);
     return (
       <Query query={SINGLE_ORDER_QUERY} variables={{ id }}>
         {({ data, error, loading }) => {
           if (error) return <Error error={error} />;
           if (loading) return <p>Loading...</p>;
-          console.log('DATATATATAT', data);
           const { order } = data;
           return (
-            <OrderStyles>
+            <OrderStyles data-test="order">
               <Head>
                 <title>Market Place - Order {order.id} </title>
               </Head>
