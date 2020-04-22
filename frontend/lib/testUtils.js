@@ -37,7 +37,7 @@ const fakeOrderItem = () => ({
 
 const fakeOrder = () => ({
   __typename: 'Order',
-  id: 'ord123',
+  id: 'aaa111',
   charge: 'ch_123',
   total: 40000,
   items: [fakeOrderItem(), fakeOrderItem()],
