@@ -44,29 +44,32 @@ export default class Payment extends Component {
     const { children } = this.props;
     return (
       <User>
-        {({ data: { me } }) => (
-          <Mutation
-            refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-            mutation={CREATE_ORDER_MUTATION}
-          >
-            {(createOrder, { error }) => (
-              <StripeCheckout
-                name="Market Place"
-                description={`Order of ${totalItems(me.cart)} items`}
-                image={
-                  me.cart.length && me.cart[0].item && me.cart[0].item.image
-                }
-                amount={calcTotalPrice(me.cart)}
-                stripeKey="pk_test_HPudnXijOi9poQQ2LCdW9gsh"
-                currency="GBP"
-                email={me.email}
-                token={res => this.onToken(res, createOrder)}
-              >
-                {children}
-              </StripeCheckout>
-            )}
-          </Mutation>
-        )}
+        {({ data: { me }, loading }) => {
+          if (loading) return null;
+          return (
+            <Mutation
+              refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+              mutation={CREATE_ORDER_MUTATION}
+            >
+              {(createOrder, { error }) => (
+                <StripeCheckout
+                  name="Market Place"
+                  description={`Order of ${totalItems(me.cart)} items`}
+                  image={
+                    me.cart.length && me.cart[0].item && me.cart[0].item.image
+                  }
+                  amount={calcTotalPrice(me.cart)}
+                  stripeKey="pk_test_HPudnXijOi9poQQ2LCdW9gsh"
+                  currency="GBP"
+                  email={me.email}
+                  token={res => this.onToken(res, createOrder)}
+                >
+                  {children}
+                </StripeCheckout>
+              )}
+            </Mutation>
+          );
+        }}
       </User>
     );
   }
